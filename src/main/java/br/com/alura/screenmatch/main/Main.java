@@ -80,8 +80,8 @@ public class Main {
     private void listSearchedSeries(){
         List<Serie> series = new ArrayList<>();
         series = serieData.stream()
-                        .map(d -> new Serie(d))
-                                .collect(Collectors.toList());
+                .map(d -> new Serie(d))
+                .collect(Collectors.toList());
 
         series.stream()
                 .sorted(Comparator.comparing(Serie::getGenre))

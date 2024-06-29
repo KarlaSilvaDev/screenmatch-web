@@ -1,6 +1,6 @@
 package br.com.alura.screenmatch.model;
 
-import com.fasterxml.jackson.annotation.JsonAlias;
+import br.com.alura.screenmatch.service.translation.MyMemoryQuery;
 
 import java.util.OptionalDouble;
 
@@ -19,7 +19,7 @@ public class Serie {
         this.rating = OptionalDouble.of(Double.valueOf(serieData.rating())).orElse(0);
         this.genre = Genre.fromString(serieData.genre().split(",")[0].trim());
         this.posterUrl = serieData.posterUrl();
-        this.plot = serieData.plot();
+        this.plot = MyMemoryQuery.getTranslation(serieData.plot()).trim();
     }
 
     public String getTitle() {
