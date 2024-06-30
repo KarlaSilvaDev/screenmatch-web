@@ -1,17 +1,29 @@
 package br.com.alura.screenmatch.model;
 
 import br.com.alura.screenmatch.service.translation.MyMemoryQuery;
+import jakarta.persistence.*;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.OptionalDouble;
 
+@Entity
+@Table(name = "series")
 public class Serie {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    @Column(unique = true)
     private String title;
     private Integer numberOfSeasons;
     private Double rating;
+    @Enumerated(EnumType.STRING)
     private Genre genre;
     private String actors;
     private String posterUrl;
     private String plot;
+    @Transient
+    private List<Episode> episodes = new ArrayList<>();
 
     public Serie(SerieData serieData){
         this.title = serieData.title();
@@ -20,6 +32,14 @@ public class Serie {
         this.genre = Genre.fromString(serieData.genre().split(",")[0].trim());
         this.posterUrl = serieData.posterUrl();
         this.plot = MyMemoryQuery.getTranslation(serieData.plot()).trim();
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getTitle() {
@@ -76,6 +96,14 @@ public class Serie {
 
     public void setPlot(String plot) {
         this.plot = plot;
+    }
+
+    public List<Episode> getEpisodes() {
+        return episodes;
+    }
+
+    public void setEpisodes(List<Episode> episodes) {
+        this.episodes = episodes;
     }
 
     @Override
