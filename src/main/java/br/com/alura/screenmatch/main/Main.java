@@ -8,7 +8,6 @@ import br.com.alura.screenmatch.service.ApiConsumer;
 import br.com.alura.screenmatch.service.DataConverter;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class Main {
     private Scanner scanner = new Scanner(System.in);
@@ -85,11 +84,7 @@ public class Main {
     }
 
     private void listSearchedSeries(){
-        List<Serie> series = new ArrayList<>();
-        series = serieData.stream()
-                .map(d -> new Serie(d))
-                .collect(Collectors.toList());
-
+        List<Serie> series = repository.findAll();
         series.stream()
                 .sorted(Comparator.comparing(Serie::getGenre))
                 .forEach(System.out::println);
