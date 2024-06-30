@@ -25,11 +25,14 @@ public class Serie {
     @Transient
     private List<Episode> episodes = new ArrayList<>();
 
+    public Serie(){}
+
     public Serie(SerieData serieData){
         this.title = serieData.title();
         this.numberOfSeasons = serieData.numberOfSeasons();
         this.rating = OptionalDouble.of(Double.valueOf(serieData.rating())).orElse(0);
         this.genre = Genre.fromString(serieData.genre().split(",")[0].trim());
+        this.actors = serieData.actors();
         this.posterUrl = serieData.posterUrl();
         this.plot = MyMemoryQuery.getTranslation(serieData.plot()).trim();
     }
