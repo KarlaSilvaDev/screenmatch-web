@@ -5,11 +5,12 @@ import br.com.alura.screenmatch.model.Genre;
 import br.com.alura.screenmatch.model.Serie;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
-
+@Repository
 public interface SerieRepository extends JpaRepository<Serie, Long> {
     Optional<Serie> findByTitleContainingIgnoreCase(String serieTitle);
 
