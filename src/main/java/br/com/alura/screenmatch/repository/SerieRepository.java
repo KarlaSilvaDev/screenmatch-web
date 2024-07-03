@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
-@Repository
+
 public interface SerieRepository extends JpaRepository<Serie, Long> {
     Optional<Serie> findByTitleContainingIgnoreCase(String serieTitle);
 
@@ -32,4 +32,13 @@ public interface SerieRepository extends JpaRepository<Serie, Long> {
 
     @Query("SELECT e FROM Serie s JOIN s.episodes e WHERE s = :serie AND YEAR(e.releaseDate) >= :releaseDate")
     List<Episode> findEpisodesAfterADate(Serie serie, int releaseDate);
+
+    //O código abaixo pode trazer a mesma série do banco de dados se ela tiver os 5 episódios mais recentes. Por isso, não utilizaremos derivedQuerie
+    //List<Serie> findTop5ByOrderByEpisodesReleaseDateDesc();
+
+    @Query("SELECT s FROM Serie s JOIN s.episodes e GROUP BY s ORDER BY MAX(e.releaseDate) DESC LIMIT 5")
+    List<Serie> findMostRecentEpisodes();
+
+    @Query("SELECT e FROM Serie s JOIN s.episodes e WHERE s.id = :id AND e.season = :seasonNumber")
+    List<Episode> getEpisodes(Long id, Long seasonNumber);
 }
